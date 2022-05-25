@@ -2,6 +2,8 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu-20.04
 
 ARG USERNAME=vscode
 
+SHELL ["/bin/bash", "-oeux", "pipefail", "-c"]
+
 # install development tools
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -31,17 +33,15 @@ RUN git clone https://github.com/uchan-nos/mikanos-build.git osbook \
 RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
 
 ENV CARGO_MAKE_VERSION='0.35.12'
-ENV CARGO_MAKE_BIN="cargo-make-v${CARGO_MAKE_VERSION}-x86_64-unknown-linux-musl.zip"
+ENV CARGO_MAKE_BIN="cargo-make-v${CARGO_MAKE_VERSION}-x86_64-unknown-linux-musl"
 ENV CARGO_MAKE_ZIP="${CARGO_MAKE_BIN}.zip"
 
-RUN wget "https://github.com/sagiegurari/cargo-make/releases/download/v${CARGO_MAKE_VERSION}/${CARGO_MAKE_ZIP}" \
+RUN wget -q "https://github.com/sagiegurari/cargo-make/releases/download/v${CARGO_MAKE_VERSION}/${CARGO_MAKE_ZIP}" \
     && unzip "${CARGO_MAKE_ZIP}" \
     && mkdir "${HOME}/${USERNAME}/.local/bin" \
     && cp ${CARGO_MAKE_BIN}/{cargo-make,maker} "${HOME}/${USERNAME}/.local/bin" \
     && rm -rf "${CARGO_MAKE_BIN}" \
     && rm -f "${CARGO_MAKE_ZIP}"
-
-USER root
 
 ENV PATH="/home/${USERNAME}/.cargo/bin:/home/${USERNAME}/osbook/devenv:${PATH}"
 
