@@ -41,7 +41,7 @@ jobs:
       with:
         context: .
         file: Dockerfile
-        push: false
+        push: true
         # push: ${{ github.ref == 'refs/heads/main' }}
         tags: ${{ steps.metadata.outputs.tags }}
         labels: ${{ steps.metadata.outputs.labels }}
