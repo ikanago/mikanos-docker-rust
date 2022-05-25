@@ -38,7 +38,7 @@ ENV CARGO_MAKE_ZIP="${CARGO_MAKE_BIN}.zip"
 
 RUN wget -q "https://github.com/sagiegurari/cargo-make/releases/download/v${CARGO_MAKE_VERSION}/${CARGO_MAKE_ZIP}" \
     && unzip "${CARGO_MAKE_ZIP}" \
-    && mkdir "${HOME}/${USERNAME}/.local/bin" \
+    && mkdir -p "${HOME}/${USERNAME}/.local/bin" \
     && cp ${CARGO_MAKE_BIN}/{cargo-make,maker} "${HOME}/${USERNAME}/.local/bin" \
     && rm -rf "${CARGO_MAKE_BIN}" \
     && rm -f "${CARGO_MAKE_ZIP}"
